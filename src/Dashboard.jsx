@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getListWarehouses } from './services/apiFunctions'
+import { deleteWarehouseById, getListWarehouses } from './services/apiFunctions'
 import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
@@ -9,21 +9,31 @@ const Dashboard = () => {
 
   const getWarehouses = () => {
     getListWarehouses().then((response) => {
-      console.log(response.data)
       setWarehouses(response.data)
     })
     .catch(error => console.log(error))
     
   }
   const updateWarehouse = (id) => {
-    navigator(`/update/:${id}`)
+    navigator(`/update/${id}`)
+  }
+
+  const viewWarehouse = (id) => {
+    navigator(`/warehouse/${id}`)
+  }
+
+  const deleteWarehouse = (id) => {
+    deleteWarehouseById(id).then((response) => {
+      setWarehouses((prevWarehouses) => prevWarehouses.filter(warehouse => warehouse.id !== warehouse.id))
+      getWarehouses()
+    }).catch(error => console.log(error))
   }
   
 
   useEffect(() => {
     getWarehouses()
-    
   }, [])
+  
   return (
     <div className='container'>
         <h1 className='text-center'>Warehouse Dashboard</h1>
@@ -62,7 +72,7 @@ const Dashboard = () => {
                     <td>{warehouse.location.city}</td>
                     <td>{warehouse.location.state}</td>
                     <td>{warehouse.location.country}</td>
-                    <td><button className='btn btn-primary'>View</button></td>
+                    <td><button className='btn btn-primary' onClick={() => viewWarehouse(warehouse.id)}>View</button></td>
                     <td><button className='btn btn-success' onClick={() => updateWarehouse(warehouse.id)}>Update</button></td>
                     <td><button className='btn btn-danger' onClick={() => deleteWarehouse(warehouse.id)}>Delete</button></td>
 

@@ -23,9 +23,9 @@ const Header = () => {
         </button>
         <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link className="nav-link active" to='/' aria-current="page">Home</Link>
+            <Link className="nav-link" to='/' aria-current="page">Home</Link>
             <Link className="nav-link" to='/warehouseUpdate'>Add Warehouse</Link>
-            <a className="nav-link" href="#">Pricing</a>
+            <Link className="nav-link" to='/items'>View Items</Link>
             <a className="nav-link disabled" aria-disabled="true">Disabled</a>
           </div>
         </div>

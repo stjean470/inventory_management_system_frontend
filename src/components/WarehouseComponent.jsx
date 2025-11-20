@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import countries from '../util/countries'
-import { addWarehouse, getWarehouseById } from '../services/apiFunctions'
+import { addWarehouse, getWarehouseById, updateWarehouse } from '../services/apiFunctions'
 import states from '../util/states'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const WarehouseComponent = () => {
   const [name, setName] = useState('')
@@ -15,32 +15,61 @@ const WarehouseComponent = () => {
   const [isStatePresent, setIsStatePresent] = useState(false)
 
   const {id} = useParams()
+  const navigator = useNavigate()
 
-  const createWarehouse = () => {
-    if (state != null || state !== '') {
-      location.state = state
+  const createOrUpdateWarehouse = (e) => {
+    e.preventDefault()
+    if (id) {
+      if (state != null || state !== '') {
+        location.state = state
+      }
+      const warehouse = {
+        name: name,
+        max_capacity: max_capacity,
+        location: location
+      }
+      updateWarehouse(id, warehouse).then((response) => console.log(response.data))
+      .catch(error => console.log(error))
+    }else {
+      if (state != null || state !== '') {
+        location.state = state
+      }
+      const warehouse = {
+        name: name,
+        max_capacity: max_capacity,
+        location: location
+      }
+      addWarehouse(warehouse).then(() => navigator("/"))
+      .catch(error => console.log(error))
     }
-    const warehouse = {
-      name: name,
-      max_capacity: max_capacity,
-      location: location
-    }
-    addWarehouse(warehouse).then(data => console.log(data + " was successfully added"))
-    .catch(error => console.log(error))
   }
 
   useEffect(() => {
     if(id) {
-      console.log(id)
       getWarehouseById(id).then((response) => {
-        console.log(response.data)
+        const warehouse = response.data
+        console.log(warehouse.location)
+        if (warehouse.location.state != null) {
+          setState(warehouse.location.state)
+          setIsStatePresent(!isStatePresent)
+        }
+        
+        setName(warehouse.name)
+        setMax_Capacity(warehouse.max_capacity)
+        setLocation(warehouse.location)
+
+        
       }).catch(error => console.log(error))
     }
     
   }, [id])
   return (
     <div className='container'>
-      <h1 className='text-center mb-3'>Add Warehouse</h1>
+      {
+        id ? (<h1 className='text-center mb-3'>Update Warehouse</h1>) :
+        (<h1 className='text-center mb-3'>Add Warehouse</h1>)
+      }
+      
 
       <div className='row'>
         <form>
@@ -55,7 +84,7 @@ const WarehouseComponent = () => {
             />
           </div>
           <div className='form-group'>
-            <label className='form-label'>Name</label>
+            <label className='form-label'>Max Capacity</label>
             <input 
               type='number'
               className='form-control'
@@ -122,7 +151,11 @@ const WarehouseComponent = () => {
               <small className='form-text text-muted'>If you want your Warehouse in the US, you can do that, you will also be prompted to put a State</small> 
             )}
           </div>
-          <button type='submit' onClick={createWarehouse}>Add</button>
+          {
+            id ? (<button type='submit' className='btn btn-primary' onClick={createOrUpdateWarehouse}>Update</button>) :
+            <button type='submit' className='btn btn-primary' onClick={createOrUpdateWarehouse}>Create</button>
+          }
+          
         </form>
       </div>
     </div>
