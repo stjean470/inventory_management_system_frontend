@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { deleteWarehouseById, getListWarehouses } from './services/apiFunctions'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { FiEdit3 } from "react-icons/fi";
+import { IoIosTrash } from "react-icons/io";
+import { GrView } from "react-icons/gr";
 
 const Dashboard = () => {
   const [warehouses, setWarehouses] = useState([])
@@ -72,10 +75,11 @@ const Dashboard = () => {
                     <td>{warehouse.location.city}</td>
                     <td>{warehouse.location.state}</td>
                     <td>{warehouse.location.country}</td>
-                    <td><button className='btn btn-primary' onClick={() => viewWarehouse(warehouse.id)}>View</button></td>
-                    <td><button className='btn btn-success' onClick={() => updateWarehouse(warehouse.id)}>Update</button></td>
-                    <td><button className='btn btn-danger' onClick={() => deleteWarehouse(warehouse.id)}>Delete</button></td>
-
+                    <td>
+                      <GrView style={{cursor: 'pointer', margin: '5px'}} onClick={() => viewWarehouse(warehouse.id)}/>
+                      <FiEdit3 style={{cursor: 'pointer', margin: '5px'}} onClick={() => updateWarehouse(warehouse.id)}/>
+                      <IoIosTrash style={{cursor: 'pointer', margin: '5px'}} onClick={() => deleteWarehouse(warehouse.id)}/>
+                    </td>
                   </tr>
                 )
                   
@@ -83,7 +87,9 @@ const Dashboard = () => {
             }
           </tbody>
         </table>
-        
+        <div className='row d-flex justify-content-center'>
+          <Link className="btn btn-dark" to='/warehouseUpdate'>Add Warehouse</Link>
+        </div>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import countries from '../util/countries'
-import { addWarehouse, getWarehouseById, updateWarehouse } from '../services/apiFunctions'
-import states from '../util/states'
+import countries from '../../util/countries'
+import { addWarehouse, getWarehouseById, updateWarehouse } from '../../services/apiFunctions'
+import states from '../../util/states'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const WarehouseComponent = () => {

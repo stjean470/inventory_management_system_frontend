@@ -1,49 +1,69 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { addItem, getWarehouseById } from '../services/apiFunctions'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addItem, getItemById, updateItem } from '../../services/apiFunctions'
 
-const ItemForWarehouseForm = () => {
+const ItemForm = () => {
     const [itemName, setItemName] = useState('')
     const [sku, setSku] = useState('') 
     const [description, setDescription] = useState('')
     const [quantity, setQuantity] = useState(0)
     const [storage_location, setStorage_Location] = useState('')
-    const [warehouse, setWarehouse] = useState({}) //this warehouse will be used to pair an Item to a specific warehouse
-
     const {id} = useParams()
+    const navigator = useNavigate()
 
-    const getWarehouse = (id) => {
-        getWarehouseById(id).then((response) => {
-            const retrievedWarehouse = response.data
-            setWarehouse(retrievedWarehouse)
-        })
+    const addOrupdateItem = (e) => {
+        e.preventDefault()
+        if (id) {
+            const item = {
+                itemName: itemName,
+                sku: sku,
+                description: description,
+                quantity: quantity,
+                storage_location: storage_location
+            }
+            updateItem(id, item).then((response) => {
+                console.log(response.data)
+                navigator('/items')
+            })
+
+        }else {
+            const item = {
+                itemName: itemName,
+                sku: sku,
+                description: description,
+                quantity: quantity,
+                storage_location: storage_location
+            }
+            addItem(item).then((response) => {
+                console.log(response.data)
+                navigator('/items')
+            })
+
+        }
     }
 
-    const addItemToWarehouse = (e) => {
-        e.preventDefault()
-        const item = {
-            itemName: itemName,
-            sku: sku,
-            description: description,
-            quantity: quantity,
-            storage_location: storage_location,
-            warehouses: [warehouse]
-        }
-
-        addItem(item).then((response) => console.log(response.data))
-        
-    } 
-
     useEffect(() => {
-        if (id) {
-            getWarehouse(id)
+        if(id) {
+            getItemById(id).then((response) => {
+                const item = response.data
+                console.log(item)
+                setItemName(item.itemName)
+                setSku(item.sku)
+                setDescription(item.description)
+                setQuantity(item.quantity)
+                setStorage_Location(item.storage_location)
+            })
         }
-    })
+    }, [])
   return (
     <div className='container'>
         <div className='row'>
             <div className='card'>
-                <h1 className='text-center'>Add Item For Warehouse</h1>
+                {
+                    id ? (<h1 className='text-center'>Update Item</h1>) :
+                    (<h1 className='text-center'>Add Item</h1>)
+                }
+                
                 <form>
                     <div className='form-group'>
                         <label className='form-label'>Item Name</label>
@@ -95,7 +115,11 @@ const ItemForWarehouseForm = () => {
                             onChange={(e) => setStorage_Location(e.target.value)}
                         />
                     </div>
-                    <button type='submit' className='btn btn-primary' onClick={addItemToWarehouse}>Create</button>
+                    {
+                        id ? (<button type='submit' className='btn btn-primary' onClick={addOrupdateItem}>Update</button>) :
+                        (<button type='submit' className='btn btn-primary' onClick={addOrupdateItem}>Create</button>)
+                    }
+                    
                     
                 </form>
             </div>
@@ -104,4 +128,4 @@ const ItemForWarehouseForm = () => {
   )
 }
 
-export default ItemForWarehouseForm
+export default ItemForm

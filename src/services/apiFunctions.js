@@ -7,10 +7,17 @@ export const addWarehouse = (warehouse) => axios.post(BASE_WAREHOUSE_URL + '/new
 export const getWarehouseById = (id) => axios.get(BASE_WAREHOUSE_URL + '/warehouse/' + id)
 export const updateWarehouse = (id, warehouse) => axios.put(BASE_WAREHOUSE_URL + '/update/' + id, warehouse)
 export const deleteWarehouseById = (id) => axios.delete(BASE_WAREHOUSE_URL + '/delete/' + id)
+export const deleteItemInWarehouse = (warehouseId, itemId) => axios.put(`${BASE_WAREHOUSE_URL}/deleteItemInWarehouse/${warehouseId}/${itemId}`)
 export const getItemsByWarehouse = (id) => axios.get(BASE_WAREHOUSE_URL + '/warehouseItems/' + id)
+export const addItemToTheWarehouse = (id, item) => axios.post(BASE_WAREHOUSE_URL + '/addItemToWarehouse/' + id, item)
+export const transferFromWarehouseToWarehouse = (presentWarehouseId, itemId, newWarehouseId) => axios.put(`${BASE_WAREHOUSE_URL}/transferItemFromWarehouseToWarehouse/${presentWarehouseId}/${itemId}/${newWarehouseId}`)
+
 //API Calls for Items
 export const getAllItems = () => axios.get(BASE_ITEMS_URL)
 export const addItem = (item) => axios.post(BASE_ITEMS_URL + '/item', item)
 export const getItemById = (id) => axios.get(BASE_ITEMS_URL + '/item/' + id)
 export const updateItem = (id, item) => axios.put(BASE_ITEMS_URL + '/update-item/' + id, item)
 export const deleteItemById = (id) => axios.delete(BASE_ITEMS_URL + '/delete/' + id)
+export const getWarehousesByItemId = (id) => axios.get(`${BASE_ITEMS_URL}/warehousesForItem/${id}`)
+export const addSpecificItemToWarehouse = (itemId, warehouseId) => axios.put(`${BASE_ITEMS_URL}/addItemToAnWarehouse/${itemId}/${warehouseId}`);
+

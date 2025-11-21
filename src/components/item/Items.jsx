@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { deleteItemById, getAllItems } from '../services/apiFunctions'
+import { deleteItemById, getAllItems } from '../../services/apiFunctions'
 import { useNavigate } from 'react-router-dom'
+import { FiEdit3 } from "react-icons/fi";
+import { IoIosTrash } from "react-icons/io";
+import { GrView } from "react-icons/gr";
 const Items = () => {
     const [items, setItems] = useState([])
 
@@ -16,6 +19,9 @@ const Items = () => {
         navigator(`/item`)
     }
 
+    const viewItem = (id) => {
+        navigator(`/item-info/${id}`)
+    }
     const updateItem = (id) => {
         navigator(`/updateItem/${id}`)
     }
@@ -54,9 +60,9 @@ const Items = () => {
                                 <td>{item.quantity}</td>
                                 <td>{item.storage_location}</td>
                                 <td>
-                                    <button className='btn btn-primary'>View</button>
-                                    <button className='btn btn-success' onClick={() => updateItem(item.id)}>Update</button>
-                                    <button className='btn btn-danger' onClick={() => deleteItem(item.id)}>Delete</button>
+                                    <GrView style={{cursor: 'pointer', margin: '5px'}} onClick={() => viewItem(item.id)}/>
+                                    <FiEdit3 style={{cursor: 'pointer', margin: '5px'}} onClick={() => updateItem(item.id)}/>
+                                    <IoIosTrash style={{cursor: 'pointer', margin: '5px'}} onClick={() => deleteItem(item.id)}/>
                                 </td>
                             </tr>
                         )
@@ -64,7 +70,10 @@ const Items = () => {
                 }
             </tbody>
         </table>
-        <button className='btn btn-primary' onClick={addAnItem}>Add Item</button>
+        <div className='row'>
+            <button className='btn btn-primary' onClick={addAnItem}>Add Item</button>
+        </div>
+        
 
     </div>
   )
