@@ -32,7 +32,7 @@ const TransferPortalModal = (props) => {
   return (
     <Modal show={showTransferModal} onHide={handleTransferPortal}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Transfer Item To?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <table className='table table-striped'>

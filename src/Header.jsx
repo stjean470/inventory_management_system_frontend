@@ -26,7 +26,6 @@ const Header = () => {
             <Link className="nav-link" to='/' aria-current="page">Home</Link>
             <Link className="nav-link" to='/warehouseUpdate'>Add Warehouse</Link>
             <Link className="nav-link" to='/items'>View Items</Link>
-            <a className="nav-link disabled" aria-disabled="true">Disabled</a>
           </div>
         </div>
       </div>

@@ -115,7 +115,7 @@ const Warehouse = () => {
           </table>
         </div>
         <div className='row'>
-          <button type='button' className='btn btn-primary' onClick={() => navigator(`/itemForWarehouse/${id}`)}>Add an item</button>
+          <button type='button' className='btn btn-dark' onClick={() => navigator(`/itemForWarehouse/${id}`)}>Add an item</button>
         </div>
 
         {showTransferModal && <TransferPortalModal warehouse={warehouse} item={item} showTransferModal={showTransferModal} handleTransferPortal={handleTransferPortal}/>}

@@ -3,10 +3,12 @@ import Button from 'react-bootstrap/Button'
 import  Modal  from 'react-bootstrap/Modal'
 import { addSpecificItemToWarehouse, getListWarehouses } from '../../services/apiFunctions'
 import { BsXLg } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 const ItemToWarhouseModal = (props) => {
     console.log(props)
     const {showModal, item, warehouses, handleModal} = props
     const [allWarehouses, setAllWarehouses] = useState([])
+    const navigator = useNavigate()
     const getAllWarehouse = () => {
         getListWarehouses().then((response) => {
             setAllWarehouses(response.data)
@@ -17,6 +19,7 @@ const ItemToWarhouseModal = (props) => {
         addSpecificItemToWarehouse(itemId, warehouseId).then((response) => {
             console.log(response.data)
             handleModal()
+            navigator(`/warehouse/${warehouseId}`)
         })
         .catch(error => console.log(error))
     }
@@ -27,7 +30,7 @@ const ItemToWarhouseModal = (props) => {
   return (
     <Modal show={showModal} onHide={handleModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Which Warehouse you want this Item at?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <table className='table table-striped'>

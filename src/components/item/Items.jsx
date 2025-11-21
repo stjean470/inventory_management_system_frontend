@@ -71,7 +71,7 @@ const Items = () => {
             </tbody>
         </table>
         <div className='row'>
-            <button className='btn btn-primary' onClick={addAnItem}>Add Item</button>
+            <button className='btn btn-dark' onClick={addAnItem}>Add Item</button>
         </div>
         
 

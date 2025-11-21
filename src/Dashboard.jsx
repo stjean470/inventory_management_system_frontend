@@ -41,13 +41,7 @@ const Dashboard = () => {
     <div className='container'>
         <h1 className='text-center'>Warehouse Dashboard</h1>
         <div className='row'>
-          <div className='card col-lg-6 col-sm-12'>
-            <div className='card-body'>
-              <h5 className='card-title'>Warehouse Total</h5>
-              <p className='card-text'>22</p>
-            </div>
-          </div>
-          <div className='card col-lg-6 col-sm-12'>
+          <div className='card'>
             <div className='card-body'>
               <h5 className='card-title'>Warehouse Total</h5>
               <p className='card-text'>{warehouses.length}</p>
